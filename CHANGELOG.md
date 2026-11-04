@@ -27,3 +27,8 @@
 - Comparação de salário-base, incluindo nível inicial na posse quando documentado.
 
 Entregas anteriores permanecem preservadas localmente. ZIPs e credenciais não são versionados.
+
+## 1.0.12
+
+- Instalação temporária pelo IP aprovado, mantendo validação de origem e proteção do formulário.
+- Transição para HTTPS com backup e preservação das configurações e dados.

@@ -13,9 +13,25 @@ if addresses!={expected}:raise SystemExit('DNS ainda não aponta exclusivamente 
 print('Registro A confirmado.')
 PY
 certbot certonly --webroot -w /var/www/trajetoria-acme -d trajetoria.net.br --non-interactive --agree-tos --register-unsafely-without-email
+CONF=/etc/nginx/sites-available/trajetoria.net.br
+APP_CONFIG=/srv/trajetoria/app/private/config.php
+BACKUP="${CONF}.before-https-$(date -u +%Y%m%d%H%M%S)"
+cp -p "$CONF" "$BACKUP"
+CONFIG_BACKUP=""
+if [[ -f "$APP_CONFIG" ]]; then
+    CONFIG_BACKUP="${APP_CONFIG}.before-https-$(date -u +%Y%m%d%H%M%S)"
+    cp -p "$APP_CONFIG" "$CONFIG_BACKUP"
+fi
+rollback() { cp -p "$BACKUP" "$CONF"; if [[ -n "$CONFIG_BACKUP" ]]; then cp -p "$CONFIG_BACKUP" "$APP_CONFIG"; fi; systemctl reload nginx || true; }
+trap rollback ERR
 install -m 0644 "$(dirname "$0")/nginx-https.conf" /etc/nginx/sites-available/trajetoria.net.br
-nginx -t
+nginx -t 2>&1
+if [[ -f /srv/trajetoria/app/private/config.php ]]; then
+    php "$(dirname "$0")/set-https-origin.php" /srv/trajetoria/app/private/config.php
+fi
 systemctl reload nginx
+trap - ERR
+rm -f /srv/trajetoria/app/private/runtime/http-bootstrap.json
 install -d -m 0755 /etc/letsencrypt/renewal-hooks/deploy
 printf '#!/bin/sh\nsystemctl reload nginx\n' > /etc/letsencrypt/renewal-hooks/deploy/trajetoria-reload
 chmod 0755 /etc/letsencrypt/renewal-hooks/deploy/trajetoria-reload

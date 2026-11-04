@@ -31,3 +31,9 @@ Fontes de referência: https://ubuntu.com/server/docs/how-to/web-services/instal
 ## Destino confirmado
 
 Para esta implantação, o responsável confirmou o IP 177.93.129.219, o nome de máquina trajetoria e o IP privado 172.18.3.18. Confira ambos antes de executar os scripts. O IP 177.93.129.204 pertence à outra instância e não deve receber esta implantação.
+
+### Acesso temporário pelo IP aprovado
+
+Após a preparação inicial, execute `sudo bash enable-ip-http.sh 177.93.129.219 trajetoria` na pasta dos scripts. Acesse http://177.93.129.219/instalar e use os parâmetros do arquivo privado `/home/ubuntu/trajetoria-acesso-instalacao.txt`. Escolha sua conta pessoal no instalador. O HTTP temporário não criptografa a conexão.
+
+Quando o registro A resolver para esse IP, execute `sudo bash activate-https.sh 177.93.129.219 trajetoria`. O procedimento ativa o certificado e altera o endereço da aplicação para https://trajetoria.net.br, preservando banco, contas e chave de aplicação. O acesso HTTP passa a redirecionar para o domínio seguro.

@@ -16,6 +16,8 @@ files=list((R/"sistema/private/releases/1.0.0/app").glob("*.php"))+list((R/"sist
 for p in files:run([php,"-l",p],Path(php).parent)
 print(f"OK: sintaxe de {len(files)} arquivos PHP.",flush=True)
 print(run([php,R/"sistema/tools/test-login-session.php"],Path(php).parent),flush=True)
+for test in ["test-installation-origin.php","test-https-origin.php"]:
+    print(run([php,R/"sistema/tools"/test],Path(php).parent),flush=True)
 for name in ["test-commission-board.mjs","test-commission-board-ui.mjs","test-employee-portal-ui.mjs","test-career-path-ui.mjs","test-login-client.mjs"]:
     print(run([node,R/"sistema/tools"/name]),flush=True)
 print("OK: testes básicos concluídos. Testes de banco/HTTP completos exigem a fixture documentada.",flush=True)

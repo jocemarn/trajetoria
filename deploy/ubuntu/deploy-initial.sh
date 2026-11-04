@@ -30,6 +30,7 @@ python3 - "$APP" "$VERSION" "$REPOSITORY" <<'PY'
 from pathlib import Path
 import hashlib,json,sys,subprocess
 app=Path(sys.argv[1]);version=sys.argv[2];repo=Path(sys.argv[3]);rel=app/'private/releases'/version
+(app/'private/active.json').write_text(json.dumps({'version':version,'previous':None}))
 files={}
 for folder in ['app','assets','data']:
  for p in (rel/folder).rglob('*'):
