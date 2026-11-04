@@ -19,9 +19,8 @@ SOURCE="$REPOSITORY/sistema/private/releases/1.0.0"
 [[ -f "$SOURCE/app/bootstrap.php" ]] || { echo "Código completo ainda não está disponível."; exit 1; }
 install -d -m 0755 "$APP"
 install -d -m 0750 "$APP/private" "$APP/private/releases"
-if [[ ! -d "$APP/private/releases/$VERSION" ]]; then
-    cp -a "$SOURCE" "$APP/private/releases/$VERSION"
-fi
+install -d -m 0750 "$APP/private/releases/$VERSION"
+cp -a "$SOURCE"/. "$APP/private/releases/$VERSION"/
 cp -a "$REPOSITORY/sistema/public" "$APP/"
 TR_SYSTEM_ROOT="$APP" TR_RELEASE_SOURCE="$APP/private/releases/$VERSION" TR_INITIAL_VERSION="$VERSION" php "$REPOSITORY/tools/prepare-local.php"
 install -m 0640 "$REPOSITORY/deploy/ubuntu/update-public-key.txt" "$APP/private/trusted-update-key.pem"
