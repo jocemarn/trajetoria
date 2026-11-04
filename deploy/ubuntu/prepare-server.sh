@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+EXPECTED_HOSTNAME="${1:?Informe o nome verificado da máquina}"
+[[ "$(hostname)" == "$EXPECTED_HOSTNAME" ]] || { echo "Nome da máquina diferente do destino aprovado."; exit 1; }
 [[ $EUID -eq 0 ]] || { echo "Execute com sudo."; exit 1; }
 . /etc/os-release
 [[ "$ID" == ubuntu && "$VERSION_ID" == 24.04 ]] || { echo "Este roteiro foi preparado para Ubuntu 24.04."; exit 1; }

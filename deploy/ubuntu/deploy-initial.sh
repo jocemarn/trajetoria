@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
+EXPECTED_HOSTNAME="${1:?Informe o nome verificado da máquina}"
+[[ "$(hostname)" == "$EXPECTED_HOSTNAME" ]] || { echo "Nome da máquina diferente do destino aprovado."; exit 1; }
 [[ $EUID -eq 0 ]] || { echo "Execute com sudo."; exit 1; }
 REPOSITORY=/srv/trajetoria/repository
 APP=/srv/trajetoria/app

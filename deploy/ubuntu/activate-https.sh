@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 [[ $EUID -eq 0 ]] || { echo "Execute com sudo."; exit 1; }
-EXPECTED_IP="${1:-177.93.129.219}"
+EXPECTED_IP="${1:?Informe o IP público aprovado}"
+EXPECTED_HOSTNAME="${2:?Informe o nome verificado da máquina}"
+[[ "$(hostname)" == "$EXPECTED_HOSTNAME" ]] || { echo "Nome da máquina diferente do destino aprovado."; exit 1; }
 python3 - "$EXPECTED_IP" <<'PY'
 import socket,sys
 expected=sys.argv[1]
