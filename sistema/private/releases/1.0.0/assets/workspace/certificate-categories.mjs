@@ -1,0 +1,2 @@
+export function categoriesFor(p){return structuredClone(p.certificateCategories||[])}
+export function checkCategory(p,id,destination,hours,target){const c=categoriesFor(p).find(c=>c.id===id);if(!c||c.destination!==destination)throw Error('Categoria ou destino incompatível com o plano desta matrícula.');if(Number(hours)<c.minHours)throw Error('Carga horária inferior ao mínimo da categoria.');if(c.kind==='Titulação'&&!String(target||'').trim())throw Error('Informe o nível pretendido para análise.');return c;}

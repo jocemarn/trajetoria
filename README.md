@@ -2,7 +2,7 @@
 
 Sistema de gestão de carreiras de servidores públicos municipais. Edição independente em PHP e MySQL para instalação em hospedagem com cPanel.
 
-**Versão de referência:** 1.0.10. **Requisitos:** PHP 8.2+, MySQL 5.7 ou MariaDB compatível.
+**Versão de referência:** 1.0.11. **Requisitos:** PHP 8.2+, MySQL 5.7 ou MariaDB compatível.
 
 ## Estrutura
 
@@ -35,9 +35,9 @@ A pasta de fontes permanece em releases/1.0.0 por compatibilidade com as ferrame
 1. Leia [Desenvolvimento](docs/DESENVOLVIMENTO.md).
 2. Execute `php tools/prepare-local.php` para gerar arquivos privados de uma instalação nova.
 3. Execute `python tools/check_repository.py` e `python tools/run-tests.py`.
-4. Siga [Instalação no cPanel](docs/INSTALACAO-CPANEL.md).
+4. Siga [Instalação no Ubuntu](docs/INSTALACAO-UBUNTU.md) ou [Instalação no cPanel](docs/INSTALACAO-CPANEL.md).
 
-Empacotamento: `python sistema/tools/package.py --version 1.0.10`. Exige preparação local e Python cryptography. Atualizações existentes exigem a chave privada original, mantida fora do GitHub.
+Empacotamento: `python sistema/tools/package.py --version 1.0.11`. Exige preparação local e Python cryptography. Atualizações existentes exigem a chave privada original, mantida fora do GitHub.
 
 Somente dados fictícios integram as fontes. Configurações reais, senhas, sessões, chaves, bancos, backups e documentos de servidores ficam fora do repositório. A integração GOV.br não está ativa. Projeções dependem da parametrização e não substituem decisões administrativas.
 

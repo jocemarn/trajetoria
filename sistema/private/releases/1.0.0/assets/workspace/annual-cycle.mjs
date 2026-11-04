@@ -1,0 +1,4 @@
+export function annualCycle(at = new Date()) { const day = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(at); const year = Number(day.slice(0, 4)) + (day.slice(5) > '06-30' ? 1 : 0); return cycleDates(year); }
+export function cycleDates(year) { year = Number(year); if (!Number.isInteger(year) || year < 2000 || year > 2200)
+    throw Error('Ano de referência inválido.'); return { year, cutoff: year + '-06-30', ordinanceDeadline: year + '-12-31', effectYear: year + 1, effectStart: (year + 1) + '-01-01', effectEnd: (year + 1) + '-12-31' }; }
+export function certificateFitsCycle(c, year) { const cycle = cycleDates(year); const day = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(c.created)); return day <= cycle.cutoff && c.completed <= cycle.cutoff; }
