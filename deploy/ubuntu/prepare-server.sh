@@ -39,7 +39,7 @@ if [[ ! -f /etc/nginx/sites-available/trajetoria.net.br ]]; then
 cat > /etc/nginx/sites-available/trajetoria.net.br <<'NGINX'
 server {
     listen 80;
-    server_name trajetoria.net.br;
+    server_name trajetoria.net.br 177.93.129.219;
     location ^~ /.well-known/acme-challenge/ { root /var/www/trajetoria-acme; }
     location / { default_type text/plain; return 503 "Trajetoria em preparacao.\n"; }
 }
