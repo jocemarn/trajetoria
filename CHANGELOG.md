@@ -32,3 +32,8 @@ Entregas anteriores permanecem preservadas localmente. ZIPs e credenciais não s
 
 - Instalação temporária pelo IP aprovado, mantendo validação de origem e proteção do formulário.
 - Transição para HTTPS com backup e preservação das configurações e dados.
+
+## 1.0.13
+
+- Visualização da estrutura de planos importados e do PDF original com autorização por município e escopo.
+- Exibição das pendências documentais para parametrização salarial.
