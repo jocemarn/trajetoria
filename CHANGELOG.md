@@ -37,3 +37,7 @@ Entregas anteriores permanecem preservadas localmente. ZIPs e credenciais não s
 
 - Visualização da estrutura de planos importados e do PDF original com autorização por município e escopo.
 - Exibição das pendências documentais para parametrização salarial.
+
+## 1.0.14
+
+- Restringe a oferta e a vinculação de tabelas fictícias ao município demonstrativo.
