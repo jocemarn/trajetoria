@@ -46,3 +46,8 @@ Entregas anteriores permanecem preservadas localmente. ZIPs e credenciais não s
 
 - Exibe versões documentais em Regras e versões, com critérios e pendências do plano.
 - Bloqueia a simulação de versões documentais que aguardam parametrização.
+
+## 1.0.16
+
+- Preserva o nível de destino e o aproveitamento na carreira das categorias de certificados.
+- Valida o nível pretendido no envio e exclui documentos de qualificação sem aproveitamento regulamentado das evidências de progressão.
