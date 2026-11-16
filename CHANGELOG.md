@@ -41,3 +41,8 @@ Entregas anteriores permanecem preservadas localmente. ZIPs e credenciais não s
 ## 1.0.14
 
 - Restringe a oferta e a vinculação de tabelas fictícias ao município demonstrativo.
+
+## 1.0.15
+
+- Exibe versões documentais em Regras e versões, com critérios e pendências do plano.
+- Bloqueia a simulação de versões documentais que aguardam parametrização.
