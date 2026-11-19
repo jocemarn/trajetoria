@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__.'/paid-functions.php';
-function salariesApi(array $u,string $action,string $method,array $b):array{fullManager($u);$t=$u['tenant'];$frames=records($t,'salary_frames');$jobs=records($t,'salary_jobs');$changes=records($t,'salary_changes');
+function salariesApi(array $u,string $action,string $method,array $b):array{fullManager($u);if(str_starts_with($action,'official-')){if($method!=='POST')throw new Fault('Método não permitido.',405);return officialSalaryApi($u,$action,$b);}$t=$u['tenant'];$frames=records($t,'salary_frames');$jobs=records($t,'salary_jobs');$changes=records($t,'salary_changes');
  if($action==='tables')return ['frames'=>$frames,'jobs'=>$jobs,'changes'=>$changes];
  if($action==='context'){$rows=[];foreach(records($t,'links') as $p){try{$q=salaryQuote($t,$p['salary']??null,$p,today());$current=$q+paidPay($q['cents'],$p,today());}catch(Fault $e){$current=['error'=>$e->getMessage()];}$projection=null;foreach($p['processes'] as $x)if($x['state']==='Em análise'&&isset($x['salaryTarget'])){$projection=forecast($t,$p,$x,$x['salaryTarget']['forecastDate']??today());break;}$rows[]=['linkId'=>$p['id'],'registration'=>$p['registration'],'name'=>$p['name'],'role'=>$p['role'],'planId'=>$p['planId'],'current'=>$current,'projection'=>$projection,'paidFunctions'=>$p['paidFunctions']??[]];}return ['frames'=>$frames,'jobs'=>$jobs,'changes'=>$changes,'functions'=>records($t,'paid_functions'),'salaries'=>$rows];}
  if($action==='frames'){if(!record($t,'plans',$b['planId']??''))throw new Fault('Plano não encontrado.');$r=save($t,'salary_frames',['id'=>uid(),'plan'=>$b['planId'],'name'=>need($b['name']??'','quadro',120)]);audit($t,'salary.frame.create',$r['id']);return ['id'=>$r['id']];}

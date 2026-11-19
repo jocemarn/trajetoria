@@ -51,3 +51,10 @@ Entregas anteriores permanecem preservadas localmente. ZIPs e credenciais não s
 
 - Preserva o nível de destino e o aproveitamento na carreira das categorias de certificados.
 - Valida o nível pretendido no envio e exclui documentos de qualificação sem aproveitamento regulamentado das evidências de progressão.
+
+## 1.1.0
+
+- Tabelas oficiais por município, cargo e jornada, com importação CSV conferida, fonte preservada e vigências imutáveis.
+- Regras executáveis versionadas por transição, com validação, ativação, calendário e memória dos requisitos na decisão.
+- Apuração temporal por matrícula com sobreposições, pendências, suspensões e reinícios, incluindo períodos em curso e encerramento posterior da função.
+- Integração com salário-base, projeções, habilitação, classificação, portaria e histórico do enquadramento.

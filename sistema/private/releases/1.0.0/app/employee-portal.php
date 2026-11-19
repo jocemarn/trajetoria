@@ -2,9 +2,16 @@
 declare(strict_types=1);
 require_once __DIR__.'/career-path.php';
 require_once __DIR__.'/employee-salary-paths.php';
-function initialCareerCell(string $tenant,array $p):array{
+function initialCareerCell(string $tenant,array $p,?string $date=null):array{
  $map=$p['salary']??null;if(!$map)throw new Fault('Vincule a tabela do cargo antes de conferir o ingresso.');
  $job=record($tenant,'salary_jobs',$map['jobId']);if(!$job)throw new Fault('Tabela do cargo indisponível.');
+ if($job['source']==='municipal'){
+  $table=officialTableAt($tenant,$job['id'],$date??$p['admission']);
+  $cells=array_values(array_filter($table['cells'],fn($c)=>in_array($c['level'],['I','1','01'],true)));
+  usort($cells,fn($a,$b)=>strnatcmp($a['reference'],$b['reference']));
+  if(!$cells)throw new Fault('A tabela da posse não contém referência inicial do nível 1.');
+  return ['jobId'=>$job['id'],'groupId'=>$job['id'],'rowIndex'=>0,'cellKey'=>$cells[0]['key'],'level'=>$cells[0]['level'],'reference'=>$cells[0]['reference']];
+ }
  $cell=salaryCellFromInitialMap($job['source'],$map['groupId']);
  return ['jobId'=>$map['jobId'],'groupId'=>$map['groupId'],'rowIndex'=>$cell['index'],'level'=>(string)$cell['row'][0],'reference'=>(string)$cell['row'][1]];
 }
@@ -23,7 +30,7 @@ function initialCareerQuote(string $tenant,array $p):array{
  if(!$initial)throw new Fault('O gestor precisa conferir a data da posse e a referência do ingresso.');
  if($initial['planId']!==$p['planId']||$initial['role']!==$p['role'])throw new Fault('Plano ou cargo alterado. Reconfira o ingresso.');
  $at=day($initial['possessionDate']);$historic=$p;$historic['workload']=$initial['workload'];$historic['level']=$initial['level'];$historic['stage']=$initial['reference'];
- $map=['jobId'=>$initial['jobId'],'groupId'=>$initial['groupId'],'rowIndex'=>$initial['rowIndex'],'context'=>salaryContextKey($historic)];
+ $map=['jobId'=>$initial['jobId'],'groupId'=>$initial['groupId'],'rowIndex'=>$initial['rowIndex'],'cellKey'=>$initial['cellKey']??null,'context'=>salaryContextKey($historic)];
  try{$q=salaryQuote($tenant,$map,$historic,$at);}catch(Fault $e){throw new Fault('Histórico salarial na posse indisponível: '.$e->getMessage());}
  return ['date'=>$at,'basicCents'=>$q['cents'],'level'=>$initial['level'],'reference'=>$initial['reference'],'law'=>$q['law'],'basis'=>$initial['basis'],'workload'=>$initial['workload']];
 }
@@ -52,7 +59,7 @@ function saveInitialCareer(array $u,array $b):array{
  if($p['version']!==($b['version']??null))throw new Fault('Cadastro alterado. Atualize antes de salvar.',409);
  $date=day($b['possessionDate']??'');if($date>today()||$date>$p['admission'])throw new Fault('A data da posse não pode ser futura nem posterior à admissão.');
  if(($b['checked']??false)!==true)throw new Fault('Confira cargo, jornada e referência inicial.');
- salaryQuote($u['tenant'],$p['salary']??null,$p,today());$cell=initialCareerCell($u['tenant'],$p);
+ salaryQuote($u['tenant'],$p['salary']??null,$p,today());$cell=initialCareerCell($u['tenant'],$p,$date);
  $prior=$p['initialCareer']??null;if($prior)$p['initialCareerHistory'][]=$prior;
  $p['initialCareer']=$cell+['possessionDate'=>$date,'planId'=>$p['planId'],'role'=>$p['role'],'workload'=>$p['workload'],'basis'=>need($b['basis']??'','documento / fundamento do ingresso',1000),'actor'=>$u['id'],'createdAt'=>date(DATE_ATOM)];
  event($p,$u,'Referência salarial do ingresso conferida','Data da posse, cargo, jornada e nível 1 documentados.');

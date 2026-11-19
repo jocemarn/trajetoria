@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-function employeeRoadmap(string $tenant,array $p):array{
+function employeeRoadmap(string $tenant,array $p):array{if($official=careerOfficialRoadmap($tenant,$p))return $official;
  static $catalogue=null;$catalogue??=json_decode((string)file_get_contents(TR_RELEASE.'/data/career-paths.json'),true);
  $plan=record($tenant,'plans',$p['planId']);$entry=$catalogue[$p['planId']]??null;
  // Regras demonstrativas só correspondem ao mesmo documento cadastrado. Não herdar por família.
@@ -12,7 +12,7 @@ function employeeRoadmap(string $tenant,array $p):array{
   if($process&&preg_match('/^\d{4}$/',(string)($e['period']??''))&&((int)$e['period']<(int)substr($process['start'],0,4)||(int)$e['period']>(int)substr($process['end'],0,4)))continue;
   $scores[]=(float)$score;
  }
- $certs=array_values(array_filter(records($tenant,'certificates'),fn($c)=>$c['link']===$p['id']&&certificateStatus($c)==='Aprovado'));
+ $certs=array_values(array_filter(records($tenant,'certificates'),fn($c)=>($c['progressionEligible']??true)!==false&&$c['link']===$p['id']&&certificateStatus($c)==='Aprovado'));
  if($process)$certs=array_values(array_filter($certs,fn($c)=>$c['completed']>=$process['start']&&$c['completed']<=$process['end']));
  $hours=array_sum(array_map(fn($c)=>($c['kind']??'')==='Capacitação'?(float)$c['hours']:0,$certs));
  $titles=count(array_filter($certs,fn($c)=>($c['kind']??'')==='Titulação'&&(!$process||($c['targetLevel']??null)===$process['targetLevel'])));

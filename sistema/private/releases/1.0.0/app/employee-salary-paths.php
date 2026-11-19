@@ -2,6 +2,16 @@
 declare(strict_types=1);
 function employeeSalaryPaths(string $tenant,array $p,array $roadmap):array{
  if(!$roadmap['configured']||empty($p['salary']))return [];
+ if(($roadmap['paths'][0]['policy']??'')==='official'){
+  $options=[];
+  foreach($roadmap['paths'] as $path){
+   $x=['id'=>'preview-'.$path['ruleId'],'type'=>$path['type'],'targetLevel'=>$path['targetLevel'],'targetStage'=>$path['targetReference']];
+   $map=$p['salary'];$map['cellKey']=hash('sha256',j([$x['targetLevel'],$x['targetStage']]));$map['target']=j([$x['id'],$x['targetLevel'],$x['targetStage'],$x['type']]);
+   try{$current=salaryQuote($tenant,$p['salary'],$p,today());$target=salaryQuote($tenant,$map,$p,today(),$x);if($target['cents']<$current['cents'])continue;}catch(Fault $error){continue;}
+   $options[]=['type'=>$x['type'],'targetLevel'=>$x['targetLevel'],'targetStage'=>$x['targetStage'],'targetBasicCents'=>$target['cents'],'baselineBasicCents'=>$current['cents'],'promotionBasicDeltaCents'=>$target['cents']-$current['cents'],'effect'=>today(),'mode'=>'reference'];
+  }
+  return $options;
+ }
  try{$current=salaryQuote($tenant,$p['salary'],$p,today());$job=record($tenant,'salary_jobs',$p['salary']['jobId']);$cell=salaryCell($job['source'],$p['salary']['groupId'],(int)$p['salary']['rowIndex']);}
  catch(Fault $e){return [];}
  $rows=json_decode((string)file_get_contents(TR_RELEASE.'/data/salary/'.basename($cell['group']['data'])),true)['rows'];
