@@ -159,6 +159,7 @@ function careerEvaluate(string $tenant, array $p, array $process, string $at, ?a
     $c=$rule['config'];
     $checks=[];
     $add=function(string $label,string $state,$actual,$required)use(&$checks):void{$checks[]=['label'=>$label,'state'=>$state,'actual'=>$actual,'required'=>$required];};
+    $openCases=workflowBlocking($tenant,'process',$process['id']);if($openCases)$add('Diligências e recursos','Pendente',count($openCases),'Tramitação concluída');
     $add('Vigência da regra',$at>=$c['from']&&$at<=careerRuleEnd($rule)?'Atende':'Não atende',$at,[$c['from'],$c['until']]);
     $job=record($tenant,'salary_jobs',$c['jobId']);
     $scope=$job && mb_strtolower($job['name'])===mb_strtolower($p['role']) && (float)$job['workload']===(float)$p['workload'] &&
@@ -233,6 +234,7 @@ function careerEvaluate(string $tenant, array $p, array $process, string $at, ?a
 
 function careerGuard(array $u, array $p, array &$process, string $at, ?string $effect=null): ?array
 {
+    workflowAssertClear($u['tenant'],'process',$process['id']);
     $municipality=one('SELECT is_demo FROM tr_tenants WHERE id=?',[$u['tenant']]);
     if ($municipality['is_demo']??false) return null;
     $result=careerEvaluate($u['tenant'],$p,$process,$at,null,false,$effect);

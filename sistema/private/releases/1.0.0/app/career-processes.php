@@ -17,13 +17,13 @@ function processApi(array $u,string $action,string $method,array $b):array {
     if($action==='context'&&$method==='GET'){
         if(!in_array($u['role'],['admin','manager','commission']))throw new Fault('Perfil não autorizado.',403);
         $rows=[];foreach(records($t,'links') as $p)if(visibleLink($u,$p))foreach($p['processes']??[] as $x){if($u['role']==='commission'){ $a=$x['reviewAppointment']??null;if(!$a||!commissionSnapshotContains($u,$a['members'])||!reviewerAllowed($u,$a,$p))continue;}
-            if($u['role']==='commission')unset($x['salaryTarget'],$x['careerCheck'],$x['reviewHistory'],$x['dossierHash']);
+            if($u['role']==='commission')unset($x['salaryTarget'],$x['careerCheck'],$x['reviewHistory'],$x['dossierHash'],$x['decisionHistory']);
             $rows[]=['linkId'=>$p['id'],'registration'=>$p['registration'],'name'=>$p['name'],'role'=>$p['role'],'planId'=>$p['planId'],'process'=>$x,'version'=>$p['version']];}
         return ['rows'=>$rows];
     }
     if($method!=='POST')throw new Fault('Método não permitido.',405);
     $p=linkFor($u,$b['linkId']??'');$idx=processFind($p,$b['processId']??'');$x=$p['processes'][$idx];
-    if($action==='opinion'){
+    if($action==='opinion'){workflowAssertClear($t,'process',$x['id']);workflowRequireReads($u,'process',$x['id'],($b['verified']??false)===true);
         $a=$x['reviewAppointment']??null;$current=$a?record($t,'appointments',$a['id']):null;
         if($x['state']!=='Em análise'||!$a||!$current||!reviewerAllowed($u,$current,$p)||!commissionSnapshotContains($u,$a['members'])||j($current['members'])!==j($a['members']))throw new Fault('Sem designação vigente para este parecer.',403);
         foreach($x['opinions']??[] as $opinion)if($opinion['member']===$u['id'])throw new Fault('Parecer já registrado.',409);
@@ -42,7 +42,7 @@ function processApi(array $u,string $action,string $method,array $b):array {
     if($at>$x['end'])throw new Fault('A apuração não pode ultrapassar o fechamento do processo.');
     $dossier=processDossier($u,$p,$x,$at,$effect);
     if($action==='dossier')return $dossier;
-    if($action==='decide'){
+    if($action==='decide'){workflowAssertClear($t,'process',$x['id']);
         if($x['state']!=='Em análise'||$p['version']!==($b['version']??null)||($b['confirmed']??false)!==true||!hash_equals($dossier['token'],(string)($b['token']??'')))throw new Fault('Processo alterado. Refaça e confirme a conferência do dossiê atual.',409);
         if($dossier['family']==='geral')throw new Fault('Use a classificação e a portaria anual do Quadro Geral.');
         $decision=$b['decision']??'';if(!in_array($decision,['Aprovar','Indeferir'],true))throw new Fault('Decisão inválida.');$reason=need($b['reason']??'','parecer fundamentado',2000);
@@ -55,7 +55,7 @@ function processApi(array $u,string $action,string $method,array $b):array {
             $p['status']=$future?'Concessão futura':'Regular';
         }else{$x['state']='Indeferido';$p['status']='Regular';}
         $x['reason']=$reason;$x['decidedBy']=$u['id'];$x['decidedAt']=date(DATE_ATOM);$x['dossierHash']=hash('sha256',j($dossier));$p['processes'][$idx]=$x;
-        event($p,$u,'Processo de evolução concluído',$decision.' · '.$reason);updateLink($u,$p,$p['version'],'process.decision');return ['state'=>$x['state']];
+        event($p,$u,'Processo de evolução concluído',$decision.' · '.$reason);updateLink($u,$p,$p['version'],'process.decision');workflowDecision($u,$p,'process',$x);return ['state'=>$x['state']];
     }
     throw new Fault('Operação não encontrada.',404);
 }

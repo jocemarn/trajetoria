@@ -1,3 +1,12 @@
+# Versão 1.3.0 — 19/11/2026
+
+- Diligências, ciência expressa, resposta com PDFs protegidos e reanálise.
+- Recursos com admissibilidade motivada e decisão sem concessão automática.
+- Prazos versionados por plano, feriados, dias úteis ou corridos e prorrogações.
+- Notificações internas por destinatário e escopo, alertas de atraso e bloqueios de pendências.
+- Preservação do PDF original e dos pareceres, com nova conferência de todos os titulares.
+- Corrige carregamento dos filtros das listas e verifica a sintaxe de toda a interface.
+
 # Versão 1.2.1 — 19/11/2026
 
 - Mantém o acesso da comissão à lista de processos de evolução.

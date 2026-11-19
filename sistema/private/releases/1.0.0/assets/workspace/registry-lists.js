@@ -1,5 +1,4 @@
 let registryServerColumns={},registryServerTenant=null;
-let registryServerColumns={},registryServerTenant=null;
 /* Filtros por coluna no cabeçalho, paginação e ações acessíveis. */
 function registryNormalize(value){return String(value??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLocaleLowerCase('pt-BR');}
 function registryPrepareList(table){
@@ -33,7 +32,5 @@ operation=type=>{if(type==='decision'&&!session.isDemo){go('Processos de evoluç
 const registryServerFilterBase=filterServerLinks;
 filterServerLinks=(links,f)=>registryServerFilterBase(links,f).filter(p=>{const values=[p.name+" "+p.registration,p.role,(workspace.units.find(u=>u.id===p.unitId)?.name||p.unit||"")+" "+(p.lotation||""),workspace.plans.find(pl=>pl.id===p.planId)?.name||"",p.level+" / "+p.stage,p.deleted?"Excluído":p.active===false?"Inativo":p.status];return Object.entries(registryServerColumns).every(([i,v])=>registryNormalize(values[Number(i)]).includes(registryNormalize(v)));});
 
-const registryClearServers=clearServerFilters;
-clearServerFilters=()=>{registryServerColumns={};registryClearServers();};
 
 const registryClearServerFilters=clearServerFilters;clearServerFilters=()=>{registryServerColumns={};registryClearServerFilters();};

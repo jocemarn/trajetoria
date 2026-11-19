@@ -2,7 +2,7 @@
 
 Sistema de gestão de carreiras de servidores públicos municipais. Edição independente em PHP e MySQL para instalação em hospedagem com cPanel.
 
-**Versão de referência:** 1.2.1. **Requisitos:** PHP 8.2+, MySQL 5.7 ou MariaDB compatível.
+**Versão de referência:** 1.3.0. **Requisitos:** PHP 8.2+, MySQL 5.7 ou MariaDB compatível.
 
 ## Estrutura
 
@@ -54,3 +54,23 @@ Processos do Magistério e do Legislativo possuem dossiê integrado e decisão c
 Importações usam CSV UTF-8 separado por ponto e vírgula, até 500 linhas e 1 MB. Baixe o modelo na tela. A prévia valida cada linha e a confirmação é bloqueada se o cadastro mudar ou houver inconsistência. Matrículas não são sobrescritas; CPFs iguais representam a mesma pessoa com vínculos independentes. Históricos aceitam períodos de tempo em curso, ocorrências e enquadramentos anteriores fechados. A ausência da tabela oficial permanece como pendência salarial explícita.
 
 Cadastros são apresentados em listas, com filtros por coluna e ações acessíveis. Exclusões são lógicas e preservam históricos; vínculos pendentes ou dependências ativas podem impedir a inativação. Versões legais e salariais usadas são preservadas.
+
+## Diligências, recursos e notificações
+
+O menu **Prazos do plano** permite ao Gestor Municipal registrar versões de prazos com vigência, fundamento, dias corridos ou úteis, feriados e início por emissão ou ciência expressa. Nenhum prazo legal é presumido para clientes reais. Casos abertos preservam o calendário usado na abertura, mesmo após nova versão.
+
+Em **Diligências e recursos**, gestores e membros designados solicitam correções em processos ou certificados. O servidor registra ciência, anexa PDFs e protocola sua resposta. Os documentos ficam criptografados e são visualizados na plataforma. Complementações preservam o original e os pareceres; novos pareceres exigem a conferência dos comprovantes por todos os titulares. Horas, conclusão e data original de envio do certificado são preservadas.
+
+Indeferimentos e rejeições geram avisos com fundamento e ciência. O servidor pode protocolar um recurso, inclusive fora do prazo, com sinalização para análise motivada de admissibilidade. O Gestor Municipal mantém a decisão ou reabre a análise; essa reabertura não concede progressão. Tramitações pendentes impedem a decisão do objeto. Prorrogações exigem motivo e fundamento e permanecem no histórico. Vencimentos não decidem o mérito automaticamente.
+
+**Notificações** são internas, restritas aos destinatários e ao escopo vigente. Marcar um aviso como lido não equivale à ciência expressa. Esta versão não envia e-mails ou mensagens externas.
+
+## Diligências, recursos e notificações
+
+O Gestor Municipal configura **Prazos do plano** com fundamento legal, vigência, dias corridos/úteis, feriados e início por emissão ou ciência expressa. Casos abertos preservam uma cópia dos parâmetros usados. Não há valores legais preenchidos automaticamente para clientes reais.
+
+Em **Diligências e recursos**, gestor e integrantes designados solicitam correções em processos e certificados em análise. O próprio servidor registra ciência, anexa PDFs protegidos e protocola a resposta. A comissão e o gestor recebem avisos internos. O gestor pode prorrogar mediante fundamento. Prazos vencidos geram alertas e não provocam indeferimento automático.
+
+Decisões desfavoráveis geram ciência e acesso ao recurso do próprio servidor. Recursos fora do prazo são sinalizados para decisão motivada de admissibilidade. Apenas o Gestor Municipal decide o recurso. Aceitar o recurso reabre a análise sem conceder progressão. As decisões anteriores e os pareceres ficam preservados. Tramitações pendentes bloqueiam a decisão do respectivo processo ou certificado.
+
+O visualizador de PDF mantém os documentos dentro da plataforma e oferece acesso à análise da tramitação. Complementações preservam o arquivo original e os metadados do curso e reiniciam a conferência dos titulares. Cada integrante precisa visualizar os PDFs complementares antes de emitir novo parecer. **Notificações** são internas; esta versão não envia e-mails nem mensagens externas. Marcar um aviso como lido não substitui a ciência expressa.

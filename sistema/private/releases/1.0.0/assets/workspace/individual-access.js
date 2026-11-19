@@ -13,7 +13,7 @@ render = () => {
     if (individual) {
         $('#profile-label').textContent = roleNames[role];
         $('#nav').innerHTML = ['Minha Trajetória', ...(role === 'commission' ? ['Minha comissão'] : [])].map(n => `<button onclick="go('${n}')" class="${view === n ? 'active' : ''}">${n}</button>`).join('');
-        if (!selected && !['Minha Trajetória', 'Minha comissão', 'Meu perfil', 'Processos de evolução'].includes(view))
+        if (!selected && !['Minha Trajetória', 'Minha comissão', 'Meu perfil', 'Processos de evolução', 'Diligências e recursos', 'Notificações', 'Prazos do plano'].includes(view))
             view = 'Minha Trajetória';
         if (!selected && view === 'Minha Trajetória') {
             $('#content').innerHTML = header('Minha Trajetória', 'Acesso individual às matrículas associadas à sua conta.') + workspace.links.filter(p=>p.personId===session.person).map(p => `<section class="card pad"><h2>${esc(p.name)} · Matrícula ${esc(p.registration)}</h2><p>${esc(p.role)} · ${esc(workspace.units.find(u => u.id === p.unitId)?.name)}<br>${esc(p.lotation || '')}<br>Nível ${esc(p.level)} · Referência ${esc(p.stage)}</p><button class="btn" onclick="openPerson('${p.id}')">Consultar carreira</button> <button class="btn secondary" onclick="sendIndividualCertificate('${p.id}')">Enviar certificado PDF</button> <button class="btn secondary" onclick="requestIndividualProgression('${p.id}')">Solicitar progressão</button></section>`).join('') + '<section class="card pad"><h2>Certificados e solicitações</h2><div id="individual-certificates">Carregando…</div></section>';
