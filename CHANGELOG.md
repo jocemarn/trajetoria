@@ -1,3 +1,9 @@
+# Versão 1.2.1 — 19/11/2026
+
+- Mantém o acesso da comissão à lista de processos de evolução.
+- Aplica filtros de coluna de servidores antes da paginação.
+- Apresenta designações funcionais em lista com ações por ícones.
+
 # Versão 1.2.0 — 19/11/2026
 
 - Formulários de avaliação por plano: fatores, pesos, escalas, periodicidade, versões e impressão.

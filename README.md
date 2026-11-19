@@ -2,7 +2,7 @@
 
 Sistema de gestão de carreiras de servidores públicos municipais. Edição independente em PHP e MySQL para instalação em hospedagem com cPanel.
 
-**Versão de referência:** 1.2.0. **Requisitos:** PHP 8.2+, MySQL 5.7 ou MariaDB compatível.
+**Versão de referência:** 1.2.1. **Requisitos:** PHP 8.2+, MySQL 5.7 ou MariaDB compatível.
 
 ## Estrutura
 
