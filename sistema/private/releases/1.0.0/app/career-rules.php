@@ -129,6 +129,7 @@ function careerPerformance(array $p, string $start, string $end, array $c): arra
         foreach ($evaluations as $evaluation) {
             if (j(array_column($evaluation['appointment']['members'],'memberId'))!==j($expected)) return ['state'=>'Pendente','actual'=>'Composição divergente'];
         }
+        if(isset($evaluations[0]['model'])){ $consolidated=assessmentConsolidate($evaluations);if($consolidated['state']==='Pendente')return ['state'=>'Pendente','actual'=>'Consolidação do formulário incompleta'];if($consolidated['state']==='Não atende')return ['state'=>'Não atende','actual'=>[$consolidated['score']]];$scores[]=$consolidated['score'];continue;}
         $values=array_column($evaluations,'score');
         $scores[]=$c['aggregation']==='mean'?array_sum($values)/count($values):min($values);
     }

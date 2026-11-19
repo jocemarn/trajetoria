@@ -1,3 +1,11 @@
+# Versão 1.2.0 — 19/11/2026
+
+- Formulários de avaliação por plano: fatores, pesos, escalas, periodicidade, versões e impressão.
+- Titulares, suplentes, finalidade da comissão e substituições com preservação dos pareceres.
+- Dossiê de evolução por família, requisitos integrados, pareceres e concessão vinculada ao ato e à referência oficial.
+- Importação CSV de pessoas, matrículas e históricos com prévia, inconsistências, confirmação e proteção contra duplicidades.
+- Cadastros em listas com filtros no cabeçalho, ações por ícones e exclusão lógica.
+
 # Histórico de versões
 
 ## Organização inicial do repositório

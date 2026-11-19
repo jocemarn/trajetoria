@@ -1,9 +1,9 @@
 /* Agrupa somente as ferramentas já autorizadas e renderizadas para o perfil. */
 const trajectoryMenuGroups=[
  ['Visão geral',['Painel','Relatórios gerenciais']],
- ['Pessoas',['Servidores','Minha Trajetória']],
+ ['Pessoas',['Servidores','Minha Trajetória','Importações']],
  ['Carreiras e remuneração',['Planos de carreira','Quadros e salários','Tabelas de referência','Funções gratificadas']],
- ['Avaliação e processos',['Comissões de avaliação','Processos de progressão','Progressão anual · Quadro Geral','Progressão anual','Fluxo de validação']],
+ ['Avaliação e processos',['Comissões de avaliação','Formulários de avaliação','Processos de evolução','Processos de progressão','Progressão anual · Quadro Geral','Progressão anual','Fluxo de validação']],
  ['Administração',['Unidades gestoras','Usuários e acessos','Contratos','Contratos dos municípios','Auditoria','Atualizações']]
 ];
 function trajectoryOrganizeMenu(){const nav=document.querySelector('#nav');if(!nav)return;const aside=nav.closest('aside');let toggle=document.querySelector('#trajectory-menu-toggle');if(!toggle){toggle=document.createElement('button');toggle.id='trajectory-menu-toggle';toggle.className='trajectory-menu-toggle';toggle.textContent='☰ Menu';toggle.setAttribute('aria-controls','nav');toggle.setAttribute('aria-expanded','false');toggle.onclick=()=>{const open=aside.classList.toggle('trajectory-menu-open');toggle.setAttribute('aria-expanded',String(open));};aside.prepend(toggle);nav.addEventListener('click',e=>{if(e.target.closest('button')&&window.innerWidth<=760){aside.classList.remove('trajectory-menu-open');toggle.setAttribute('aria-expanded','false');}});}const buttons=[...nav.querySelectorAll('button')],clean=t=>t.replace(/^[^\p{L}\p{N}]+/u,'').replace(/\s+/g,' ').trim(),existing=new Map(buttons.map(b=>[clean(b.textContent),b]));nav.replaceChildren();nav.setAttribute('aria-label','Ferramentas do Trajetória');

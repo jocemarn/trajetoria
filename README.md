@@ -2,7 +2,7 @@
 
 Sistema de gestão de carreiras de servidores públicos municipais. Edição independente em PHP e MySQL para instalação em hospedagem com cPanel.
 
-**Versão de referência:** 1.1.0. **Requisitos:** PHP 8.2+, MySQL 5.7 ou MariaDB compatível.
+**Versão de referência:** 1.2.0. **Requisitos:** PHP 8.2+, MySQL 5.7 ou MariaDB compatível.
 
 ## Estrutura
 
@@ -44,3 +44,13 @@ Somente dados fictícios integram as fontes. Configurações reais, senhas, sess
 Consulte [Segurança](SECURITY.md), [Histórico](CHANGELOG.md) e [Terceiros](THIRD_PARTY_NOTICES.md).
 
 A versão 1.1.0 permite importar tabelas oficiais em Quadros e salários, configurar regras executáveis em Regras e versões e apurar tempo na ficha da matrícula. O CSV utiliza nivel;referencia;salario_base. As tabelas e regras reais devem ser conferidas pelo município antes da concessão.
+
+## Avaliações, processos e importações
+
+O Gestor Municipal encontra **Formulários de avaliação**, **Processos de evolução** e **Importações** no menu. Os formulários possuem fatores, pesos, escala, periodicidade, mínimo e vigência próprios de cada plano. Titulares e suplentes ficam separados; substituir titulares exige fundamento e preserva os pareceres concluídos. Períodos incompletos são reiniciados com histórico.
+
+Processos do Magistério e do Legislativo possuem dossiê integrado e decisão com ato e publicação. O Quadro Geral mantém a classificação e concessão anual. Pareceres de uma comissão designada devem estar completos e favoráveis antes da aprovação.
+
+Importações usam CSV UTF-8 separado por ponto e vírgula, até 500 linhas e 1 MB. Baixe o modelo na tela. A prévia valida cada linha e a confirmação é bloqueada se o cadastro mudar ou houver inconsistência. Matrículas não são sobrescritas; CPFs iguais representam a mesma pessoa com vínculos independentes. Históricos aceitam períodos de tempo em curso, ocorrências e enquadramentos anteriores fechados. A ausência da tabela oficial permanece como pendência salarial explícita.
+
+Cadastros são apresentados em listas, com filtros por coluna e ações acessíveis. Exclusões são lógicas e preservam históricos; vínculos pendentes ou dependências ativas podem impedir a inativação. Versões legais e salariais usadas são preservadas.

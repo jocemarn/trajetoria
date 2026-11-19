@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 define('APP_VERSION',basename(TR_RELEASE));
-require __DIR__.'/core.php';require __DIR__.'/plan-documents.php';require __DIR__.'/domain.php';require __DIR__.'/api.php';require __DIR__.'/salaries.php';require __DIR__.'/annual.php';require __DIR__.'/updates.php';require __DIR__.'/profile.php';require __DIR__.'/contracts.php';require __DIR__.'/people.php';require __DIR__.'/commercial.php';require __DIR__.'/commercial-view.php';
+require __DIR__.'/core.php';require __DIR__.'/plan-documents.php';require __DIR__.'/domain.php';require __DIR__.'/api.php';require __DIR__.'/salaries.php';require __DIR__.'/annual.php';require __DIR__.'/updates.php';require __DIR__.'/profile.php';require __DIR__.'/contracts.php';require_once __DIR__.'/people.php';require __DIR__.'/commercial.php';require __DIR__.'/commercial-view.php';
 ini_set('display_errors','0');ini_set('log_errors','1');ini_set('error_log',TR_PRIVATE.'/runtime/errors.log');
 ini_set('session.use_strict_mode','1');ini_set('session.use_only_cookies','1');session_save_path(TR_PRIVATE.'/runtime/sessions');session_name('trajetoria_session');session_set_cookie_params(['lifetime'=>0,'path'=>'/','secure'=>str_starts_with(config()['url'],'https://'),'httponly'=>true,'samesite'=>'Lax']);session_start();$_SESSION['csrf']??=bin2hex(random_bytes(32));secureHeaders();
 $path=rawurldecode(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH)?:'/');$method=$_SERVER['REQUEST_METHOD'];
